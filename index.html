@@ -4,19 +4,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f5f1e9">
-<title>Post-Date Evaluation</title>
+<meta name="theme-color" content="#f4eee4">
+<title>Post-Date Evaluation — An Artistic Study</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
-
 :root {
-  --bg: #f5f1e9;
-  --paper: #fffdf8;
-  --ink: #24221f;
-  --muted: #827c73;
-  --red: #873d42;
-  --line: #e7e0d5;
+  --bg: #eee7dc;
+  --paper: #fffaf0;
+  --ink: #28251f;
+  --muted: #777064;
+  --accent: #bd594d;
+  --accent2: #e6a65e;
+  --soft: #f3e4d7;
+  --line: rgba(40,37,31,.17);
+  --shadow: 0 24px 80px rgba(45,35,25,.13);
 }
 
 * { box-sizing: border-box; }
@@ -24,46 +29,213 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
+  padding: 30px 18px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 24px 16px;
+  justify-content: center;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  transition: background .7s ease, color .7s ease;
+  overflow-x: hidden;
 }
 
+/* PAPIRNA TEKSTURA */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+}
+
+/* RAZLICITE PALETE ZA SVAKU SCENU */
+
+body.scene-intro {
+  --bg: #e9dfd0;
+  --paper: #fff9ed;
+  --accent: #b74c43;
+  --accent2: #e7a35e;
+  --soft: #f4e3d3;
+}
+
+body.scene-1 {
+  --bg: #e7d8ce;
+  --paper: #fff7ef;
+  --accent: #a64b43;
+  --accent2: #e49b70;
+  --soft: #f3ded3;
+}
+
+body.scene-2 {
+  --bg: #dce4df;
+  --paper: #f8fbf4;
+  --accent: #547d6b;
+  --accent2: #c2a36d;
+  --soft: #e2eee5;
+}
+
+body.scene-3 {
+  --bg: #e4ddeb;
+  --paper: #fbf7ff;
+  --accent: #795c91;
+  --accent2: #d18b9b;
+  --soft: #eee2f1;
+}
+
+body.scene-4 {
+  --bg: #e8dfc9;
+  --paper: #fff9e9;
+  --accent: #b77b32;
+  --accent2: #d5a84d;
+  --soft: #f4ebd1;
+}
+
+body.scene-5 {
+  --bg: #d9e0e8;
+  --paper: #f8fbff;
+  --accent: #496c9b;
+  --accent2: #a5b9d4;
+  --soft: #e4edf7;
+}
+
+body.scene-6 {
+  --bg: #e9d8d7;
+  --paper: #fff8f5;
+  --accent: #a34f5d;
+  --accent2: #e1a28f;
+  --soft: #f5e3df;
+}
+
+body.scene-7 {
+  --bg: #deded0;
+  --paper: #fbfaed;
+  --accent: #71804e;
+  --accent2: #c0a45c;
+  --soft: #ecebd7;
+}
+
+body.scene-8 {
+  --bg: #d8e2dc;
+  --paper: #f8fff8;
+  --accent: #47765c;
+  --accent2: #b5b56b;
+  --soft: #e4efe4;
+}
+
+body.scene-invite {
+  --bg: #e8d6d2;
+  --paper: #fff8f1;
+  --accent: #a84450;
+  --accent2: #e4a36f;
+  --soft: #f4e0db;
+}
+
+body.scene-schedule {
+  --bg: #d8dfe9;
+  --paper: #f8faff;
+  --accent: #4c648c;
+  --accent2: #b3a5ce;
+  --soft: #e5e9f3;
+}
+
+/* ZAVRSNA ZUTO-ZELENA SCENA */
+
+body.scene-finished {
+  --bg: #d9df83;
+  --paper: #f6f4b9;
+  --ink: #293a20;
+  --muted: #637044;
+  --accent: #4d7137;
+  --accent2: #d6b83e;
+  --soft: #e8e99a;
+}
+
+/* GLAVNI RASPORED */
+
 .container {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 680px;
+  max-width: 850px;
 }
 
 .topline {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 15px;
+  padding: 0 5px;
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: 9px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  margin-bottom: 22px;
 }
 
 .card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: clamp(25px, 6vw, 58px);
-  box-shadow: 0 16px 55px rgba(50, 40, 25, .06);
+  position: relative;
+  min-height: 570px;
+  padding: clamp(28px, 6vw, 70px);
   overflow: hidden;
+  background: var(--paper);
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: var(--shadow);
+  transition: background .7s ease;
 }
 
+/* DEKORATIVNI UMJETNICKI ELEMENTI */
+
+.card::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  right: -110px;
+  top: -115px;
+  border-radius: 50%;
+  background: var(--soft);
+  opacity: .8;
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  width: 95px;
+  height: 95px;
+  right: 35px;
+  bottom: 25px;
+  border: 1px solid var(--accent);
+  border-radius: 48% 52% 61% 39%;
+  opacity: .14;
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+
+section {
+  position: relative;
+  z-index: 2;
+  animation: contentAppear .65s ease both;
+}
+
+@keyframes contentAppear {
+  from { opacity: 0; transform: translateY(13px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden { display: none !important; }
+
 .small-label {
-  color: var(--red);
+  display: inline-block;
+  margin-bottom: 22px;
+  color: var(--accent);
   font-size: 10px;
+  font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  font-weight: 700;
-  margin-bottom: 18px;
 }
 
 h1, h2 {
@@ -72,32 +244,49 @@ h1, h2 {
 }
 
 h1 {
-  font-size: clamp(38px, 8vw, 64px);
-  line-height: 1.04;
-  margin: 0 0 20px;
+  max-width: 650px;
+  margin: 0 0 23px;
+  font-size: clamp(45px, 9vw, 82px);
+  line-height: .98;
+  letter-spacing: -2px;
 }
 
 h2 {
-  font-size: clamp(26px, 5vw, 36px);
-  line-height: 1.2;
-  margin: 0 0 15px;
+  margin: 0 0 17px;
+  font-size: clamp(29px, 5vw, 43px);
+  line-height: 1.12;
+  letter-spacing: -.7px;
 }
 
 .description {
+  max-width: 570px;
   color: var(--muted);
-  line-height: 1.8;
   font-size: 14px;
+  line-height: 1.9;
+}
+
+.handwritten {
+  color: var(--accent);
+  font-family: 'Caveat', cursive;
+  font-size: 30px;
+  font-weight: 600;
+  transform: rotate(-4deg);
 }
 
 .notice {
-  border-left: 2px solid var(--red);
-  padding: 12px 16px;
-  margin: 27px 0;
-  background: #f8f4ed;
-  color: #686157;
+  position: relative;
+  margin: 30px 0;
+  padding: 18px 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--soft);
+  color: var(--muted);
   font-size: 12px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
+
+.notice strong { color: var(--accent); }
+
+/* DUGMAD */
 
 button {
   font-family: inherit;
@@ -106,111 +295,149 @@ button {
 }
 
 .primary {
+  position: relative;
   width: 100%;
-  padding: 17px 20px;
+  padding: 18px 22px;
   border: 0;
-  background: var(--ink);
+  background: var(--accent);
   color: white;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  transition: background .2s;
+  transition: transform .25s, background .25s, box-shadow .25s;
+  box-shadow: 5px 5px 0 var(--accent2);
 }
 
-.primary:hover { background: var(--red); }
+.primary:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 8px 8px 0 var(--accent2);
+}
 
-.progress-info {
+.primary:active { transform: translate(2px,2px); }
+
+.primary:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+/* PITANJA */
+
+.question-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.progress-info {
   color: var(--muted);
   font-size: 10px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
 .progress-track {
-  height: 3px;
-  background: var(--line);
-  margin-bottom: 38px;
+  height: 5px;
+  flex: 1;
+  max-width: 170px;
+  overflow: hidden;
+  background: var(--soft);
+  border-radius: 10px;
 }
 
 .progress-fill {
   height: 100%;
   width: 0%;
-  background: var(--red);
-  transition: width .3s;
+  background: var(--accent);
+  border-radius: 10px;
+  transition: width .4s ease;
 }
 
 .question-number {
-  color: var(--red);
-  font-size: 11px;
-  letter-spacing: 2px;
-  margin-bottom: 14px;
+  display: inline-block;
+  margin-bottom: 15px;
+  color: var(--accent);
+  font-family: 'Caveat', cursive;
+  font-size: 25px;
+  transform: rotate(-3deg);
+}
+
+#questionTitle {
+  max-width: 650px;
 }
 
 .options {
   display: grid;
-  gap: 10px;
-  margin: 28px 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 30px 0;
 }
 
 .option {
+  position: relative;
+  min-height: 75px;
+  padding: 17px;
   border: 1px solid var(--line);
   background: transparent;
-  padding: 16px;
-  text-align: left;
   color: var(--ink);
+  text-align: left;
   font-size: 13px;
-  line-height: 1.5;
-  transition: .2s;
+  line-height: 1.55;
+  transition: transform .25s, background .25s, border .25s;
 }
 
+.option:nth-child(odd) { transform: rotate(-.5deg); }
+.option:nth-child(even) { transform: rotate(.5deg); }
+
 .option:hover {
-  border-color: var(--red);
-  background: #faf6f0;
+  transform: translateY(-4px) rotate(0);
+  border-color: var(--accent);
+  background: var(--soft);
 }
 
 .option.selected {
-  border-color: var(--red);
-  background: #f5eae7;
-  color: var(--red);
+  border: 1px solid var(--accent);
+  background: var(--soft);
+  color: var(--accent);
+  box-shadow: 4px 4px 0 var(--accent2);
 }
 
 textarea, .text-input {
   width: 100%;
-  padding: 16px;
+  margin: 15px 0 25px;
+  padding: 18px;
   border: 1px solid var(--line);
+  outline: none;
   background: transparent;
+  color: var(--ink);
   font-family: inherit;
   font-size: 14px;
-  outline: none;
-  margin: 12px 0 22px;
-  color: var(--ink);
+  line-height: 1.6;
+  transition: border .2s, background .2s;
 }
 
-textarea {
-  min-height: 120px;
-  resize: vertical;
-}
+textarea { min-height: 140px; resize: vertical; }
 
 textarea:focus, .text-input:focus {
-  border-color: var(--red);
+  border-color: var(--accent);
+  background: var(--soft);
 }
 
 .field-label {
   display: block;
-  color: var(--muted);
+  margin-top: 24px;
+  color: var(--accent);
   font-size: 10px;
-  letter-spacing: 1.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
-  margin-top: 23px;
 }
 
 .navigation {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   margin-top: 25px;
 }
 
@@ -218,7 +445,6 @@ textarea:focus, .text-input:focus {
   flex: 1;
   border: 1px solid var(--line);
   background: transparent;
-  padding: 16px;
   color: var(--muted);
   font-size: 10px;
   letter-spacing: 1px;
@@ -226,88 +452,277 @@ textarea:focus, .text-input:focus {
 
 .next { flex: 2; }
 
-.hidden { display: none !important; }
-
-.footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  margin-top: 22px;
-  text-transform: uppercase;
+.error {
+  margin-top: 15px;
+  color: #a33c3c;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
+/* POZIV ZA DRUGI DATE */
+
 .center { text-align: center; }
+
+.center .description {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .invite-actions {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  min-height: 125px;
-  margin-top: 24px;
+  gap: 20px;
+  min-height: 135px;
+  margin-top: 25px;
   overflow: hidden;
 }
 
 .invite-button {
-  width: 125px;
-  min-height: 52px;
-  border: 0;
+  width: 130px;
+  min-height: 55px;
   padding: 15px;
+  border: 0;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
 }
 
 .yes-button {
-  background: var(--red);
+  background: var(--accent);
   color: white;
+  box-shadow: 4px 4px 0 var(--accent2);
 }
 
 .no-button {
-  background: #e9e4dc;
-  color: #5d574f;
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  background: #e5e0d7;
+  color: #5d574f;
   transition: left .12s ease, top .12s ease;
 }
 
-.success {
-  text-align: center;
-  padding: 25px 0;
+.success-mark {
+  margin-bottom: 15px;
+  color: var(--accent);
+  font-size: 38px;
 }
 
 .success h1 {
-  color: var(--red);
-  font-size: clamp(35px, 8vw, 56px);
+  color: var(--accent);
+  font-size: clamp(40px, 8vw, 65px);
 }
 
-.success-mark {
-  font-size: 35px;
-  color: var(--red);
-  margin-bottom: 22px;
+.footer {
+  margin-top: 20px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.error {
-  color: var(--red);
-  font-size: 12px;
-  margin-top: 14px;
-  line-height: 1.6;
+/* UMJETNICKI PRELAZI IZMEDJU STRANICA */
+
+.paint-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-@media(max-width: 480px) {
-  body { padding: 12px; }
-  .card { padding: 27px 21px; }
-  .topline { font-size: 8px; }
-  .navigation { gap: 8px; }
+.paint-transition::before,
+.paint-transition::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: var(--transition-color, #bd594d);
+}
+
+.paint-transition::after {
+  background: var(--transition-color-2, #e6a65e);
+  opacity: .8;
+}
+
+.paint-splash::before {
+  clip-path: circle(0% at 50% 50%);
+  animation: splashReveal .9s ease-in-out forwards;
+}
+
+.paint-splash::after {
+  clip-path: polygon(50% 50%,50% 50%,50% 50%);
+  animation: splashSecond .85s .08s ease-in-out forwards;
+}
+
+@keyframes splashReveal {
+  0% { clip-path: circle(0% at 50% 50%); }
+  45% { clip-path: circle(75% at 50% 50%); }
+  100% { clip-path: circle(0% at 50% 50%); }
+}
+
+@keyframes splashSecond {
+  0% { clip-path: polygon(50% 50%,50% 50%,50% 50%); }
+  45% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+  100% { clip-path: polygon(50% 50%,50% 50%,50% 50%); }
+}
+
+.paint-brush::before {
+  clip-path: polygon(0 0,0 0,0 100%,0 100%);
+  animation: brushWipe .9s ease-in-out forwards;
+}
+
+.paint-brush::after {
+  clip-path: polygon(0 10%,0 10%,0 90%,0 90%);
+  animation: brushWipe2 .85s .08s ease-in-out forwards;
+}
+
+@keyframes brushWipe {
+  0% { clip-path: polygon(0 0,0 0,0 100%,0 100%); }
+  45% { clip-path: polygon(0 0,100% 8%,100% 92%,0 100%); }
+  100% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
+}
+
+@keyframes brushWipe2 {
+  0% { clip-path: polygon(0 10%,0 10%,0 90%,0 90%); }
+  45% { clip-path: polygon(0 15%,100% 0,100% 75%,0 90%); }
+  100% { clip-path: polygon(100% 10%,100% 10%,100% 90%,100% 90%); }
+}
+
+.paint-ink::before {
+  clip-path: ellipse(0% 0% at 0% 100%);
+  animation: inkSpread .95s ease-in-out forwards;
+}
+
+.paint-ink::after {
+  clip-path: ellipse(0% 0% at 100% 0%);
+  animation: inkSpread2 .95s .06s ease-in-out forwards;
+}
+
+@keyframes inkSpread {
+  0% { clip-path: ellipse(0% 0% at 0% 100%); }
+  45% { clip-path: ellipse(110% 110% at 0% 100%); }
+  100% { clip-path: ellipse(0% 0% at 0% 100%); }
+}
+
+@keyframes inkSpread2 {
+  0% { clip-path: ellipse(0% 0% at 100% 0%); }
+  45% { clip-path: ellipse(100% 100% at 100% 0%); }
+  100% { clip-path: ellipse(0% 0% at 100% 0%); }
+}
+
+.paint-diagonal::before {
+  clip-path: polygon(0 0,0 0,0 100%,0 100%);
+  animation: diagonal .9s ease-in-out forwards;
+}
+
+.paint-diagonal::after {
+  clip-path: polygon(0 0,0 0,0 100%,0 100%);
+  animation: diagonal2 .9s .07s ease-in-out forwards;
+}
+
+@keyframes diagonal {
+  0% { clip-path: polygon(0 0,0 0,0 100%,0 100%); }
+  45% { clip-path: polygon(0 0,100% 0,0 100%); }
+  100% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
+}
+
+@keyframes diagonal2 {
+  0% { clip-path: polygon(0 0,0 0,0 100%,0 100%); }
+  45% { clip-path: polygon(100% 0,100% 100%,0 100%); }
+  100% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
+}
+
+.paint-circle::before {
+  clip-path: circle(0% at 100% 0%);
+  animation: circleIn .95s ease-in-out forwards;
+}
+
+.paint-circle::after {
+  clip-path: circle(0% at 0% 100%);
+  animation: circleOut .95s .06s ease-in-out forwards;
+}
+
+@keyframes circleIn {
+  0% { clip-path: circle(0% at 100% 0%); }
+  45% { clip-path: circle(120% at 100% 0%); }
+  100% { clip-path: circle(0% at 100% 0%); }
+}
+
+@keyframes circleOut {
+  0% { clip-path: circle(0% at 0% 100%); }
+  45% { clip-path: circle(110% at 0% 100%); }
+  100% { clip-path: circle(0% at 0% 100%); }
+}
+
+.paint-paper::before {
+  clip-path: polygon(0 0,100% 0,100% 0,0 0);
+  animation: paperDrop .9s ease-in-out forwards;
+}
+
+.paint-paper::after {
+  clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%);
+  animation: paperRise .9s .08s ease-in-out forwards;
+}
+
+@keyframes paperDrop {
+  0% { clip-path: polygon(0 0,100% 0,100% 0,0 0); }
+  45% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+  100% { clip-path: polygon(0 0,100% 0,100% 0,0 0); }
+}
+
+@keyframes paperRise {
+  0% { clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%); }
+  45% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+  100% { clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%); }
+}
+
+.paint-swipe::before {
+  transform: rotate(-12deg) scaleX(0);
+  animation: swipe .9s ease-in-out forwards;
+}
+
+.paint-swipe::after {
+  transform: rotate(9deg) scaleX(0);
+  animation: swipe2 .9s .08s ease-in-out forwards;
+}
+
+@keyframes swipe {
+  0% { transform: rotate(-12deg) scaleX(0); }
+  45% { transform: rotate(-12deg) scaleX(1.5); }
+  100% { transform: rotate(-12deg) scaleX(0); }
+}
+
+@keyframes swipe2 {
+  0% { transform: rotate(9deg) scaleX(0); }
+  45% { transform: rotate(9deg) scaleX(1.5); }
+  100% { transform: rotate(9deg) scaleX(0); }
+}
+
+@media(max-width: 600px) {
+  body { padding: 14px 10px; }
+  .card { min-height: 0; padding: 30px 22px; }
+  .topline { font-size: 7px; letter-spacing: 1.5px; }
+  .options { grid-template-columns: 1fr; }
+  .option { min-height: 62px; }
+  .question-top { margin-bottom: 27px; }
+  .progress-track { max-width: 100px; }
   .invite-actions { gap: 10px; }
   .invite-button { width: 112px; }
+  .card::after { right: 15px; bottom: 12px; }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
 
-<body>
+<body class="scene-intro">
 <div class="container">
 
   <div class="topline">
@@ -319,14 +734,18 @@ textarea:focus, .text-input:focus {
 
     <!-- UVOD -->
     <section id="intro">
-      <div class="small-label">Official Assessment Form / 2026</div>
-      <h1>Post-Date<br>Evaluation.</h1>
+      <div class="small-label">An independent artistic investigation / 2026</div>
+
+      <h1>Post-Date<br><em>Evaluation.</em></h1>
+
       <p class="description">
         Nezavisna procjena nedavno realizovanog romantičnog susreta.
         Cilj ovog dokumenta je prikupljanje objektivnih informacija
         o kvalitetu događaja, ponašanju učesnika i mogućnosti
         ponavljanja eksperimenta.
       </p>
+
+      <div class="handwritten">A study in human connection.</div>
 
       <div class="notice">
         <strong>NAPOMENA:</strong> Vaši odgovori biće tretirani kao
@@ -342,13 +761,12 @@ textarea:focus, .text-input:focus {
 
     <!-- PITANJA -->
     <section id="quiz" class="hidden">
-      <div class="progress-info">
-        <span id="progressText">Pitanje 1 od 8</span>
-        <span id="progressPercent">12%</span>
-      </div>
-
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
+      <div class="question-top">
+        <div class="progress-info" id="progressText">Pitanje 1 od 8</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-info" id="progressPercent">12%</div>
       </div>
 
       <div class="question-number" id="questionNumber"></div>
@@ -371,8 +789,9 @@ textarea:focus, .text-input:focus {
 
     <!-- POZIV NA SLJEDECI DATE -->
     <section id="invitation" class="hidden center">
-      <div class="small-label">Dodatna administrativna procedura</div>
-      <div class="success-mark">✦</div>
+      <div class="small-label">A proposal for another experiment</div>
+      <div class="success-mark">✳</div>
+
       <h2>Predlog za nastavak saradnje.</h2>
 
       <p class="description">
@@ -386,7 +805,9 @@ textarea:focus, .text-input:focus {
         <strong>STATUS:</strong> Čeka se odgovor nadležne osobe.
       </div>
 
-      <h2 style="font-size:25px;">Da li ste zainteresovani za sljedeći date?</h2>
+      <h2 style="font-size:27px;">
+        Da li ste zainteresovani za sljedeći date?
+      </h2>
 
       <div class="invite-actions" id="inviteActions">
         <button class="invite-button yes-button" onclick="acceptDate()">
@@ -404,7 +825,8 @@ textarea:focus, .text-input:focus {
 
     <!-- ZAKAZIVANJE -->
     <section id="schedule" class="hidden">
-      <div class="small-label">Procedura zakazivanja / 002</div>
+      <div class="small-label">Chapter II — The arrangement</div>
+
       <h2>Odlično. Prelazimo na organizaciju sljedećeg susreta.</h2>
 
       <p class="description">
@@ -444,9 +866,10 @@ textarea:focus, .text-input:focus {
     </section>
 
     <!-- ZAVRSETAK -->
-    <section id="finished" class="hidden success">
-      <div class="success-mark">✦</div>
-      <div class="small-label">Izvještaj uspješno evidentiran</div>
+    <section id="finished" class="hidden success center">
+      <div class="success-mark">✳</div>
+      <div class="small-label">The final composition</div>
+
       <h1>Sto skodis kad ti pije</h1>
 
       <p class="description">
@@ -458,6 +881,8 @@ textarea:focus, .text-input:focus {
         STATUS PREDMETA: ZAKLJUČEN<br>
         MOGUĆNOST PONAVLJANJA: ODOBRENA
       </div>
+
+      <div class="handwritten">To be continued...</div>
     </section>
 
   </main>
@@ -560,24 +985,98 @@ const questions = [
 let current = 0;
 const answers = {};
 
-function showSection(id) {
-  ['intro', 'quiz', 'invitation', 'schedule', 'finished'].forEach(section => {
-    document.getElementById(section).classList.add('hidden');
-  });
-  document.getElementById(id).classList.remove('hidden');
+/* SCENE I PRELAZI */
+
+const questionScenes = [
+  'scene-1',
+  'scene-2',
+  'scene-3',
+  'scene-4',
+  'scene-5',
+  'scene-6',
+  'scene-7',
+  'scene-8'
+];
+
+const transitionStyles = [
+  'paint-splash',
+  'paint-brush',
+  'paint-ink',
+  'paint-diagonal',
+  'paint-circle',
+  'paint-paper',
+  'paint-swipe'
+];
+
+const transitionColors = [
+  ['#b74c43', '#e7a35e'],
+  ['#547d6b', '#c2a36d'],
+  ['#795c91', '#d18b9b'],
+  ['#b77b32', '#d5a84d'],
+  ['#496c9b', '#a5b9d4'],
+  ['#a34f5d', '#e1a28f'],
+  ['#71804e', '#c0a45c']
+];
+
+let currentScene = 'scene-intro';
+
+function transitionTo(scene, callback) {
+  const index = Math.max(0, questionScenes.indexOf(scene));
+  const colors = transitionColors[index % transitionColors.length];
+  const style = transitionStyles[index % transitionStyles.length];
+
+  const overlay = document.createElement('div');
+  overlay.className = 'paint-transition ' + style;
+  overlay.style.setProperty('--transition-color', colors[0]);
+  overlay.style.setProperty('--transition-color-2', colors[1]);
+
+  document.body.appendChild(overlay);
+
+  document.body.className = scene;
+  currentScene = scene;
+
+  callback();
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  setTimeout(() => {
+    overlay.remove();
+  }, 1050);
 }
 
-function startQuiz() {
-  showSection('quiz');
-  renderQuestion();
+function showSection(id, scene) {
+  const sections = [
+    'intro',
+    'quiz',
+    'invitation',
+    'schedule',
+    'finished'
+  ];
+
+  transitionTo(scene, () => {
+    sections.forEach(section => {
+      document.getElementById(section).classList.add('hidden');
+    });
+
+    document.getElementById(id).classList.remove('hidden');
+  });
 }
+
+/* POCETAK KVIZA */
+
+function startQuiz() {
+  current = 0;
+  renderQuestion();
+  showSection('quiz', questionScenes[0]);
+}
+
+/* PRIKAZ PITANJA */
 
 function renderQuestion() {
   const q = questions[current];
 
   document.getElementById('questionNumber').textContent =
-    'PITANJE ' + String(current + 1).padStart(2, '0');
+    'STUDIJA ' + String(current + 1).padStart(2, '0');
 
   document.getElementById('questionTitle').textContent = q.title;
   document.getElementById('questionDescription').textContent = q.description;
@@ -594,7 +1093,9 @@ function renderQuestion() {
     current === 0 ? 'hidden' : 'visible';
 
   document.getElementById('nextButton').textContent =
-    current === questions.length - 1 ? 'ZAVRŠI EVALUACIJU →' : 'NASTAVI →';
+    current === questions.length - 1
+      ? 'ZAVRŠI EVALUACIJU →'
+      : 'NASTAVI →';
 
   document.getElementById('errorMessage').textContent = '';
 
@@ -623,16 +1124,21 @@ function renderQuestion() {
     });
 
     area.appendChild(options);
+
   } else {
     const textarea = document.createElement('textarea');
     textarea.placeholder = q.placeholder;
     textarea.value = answers[current] || '';
+
     textarea.oninput = () => {
       answers[current] = textarea.value;
     };
+
     area.appendChild(textarea);
   }
 }
+
+/* NAPRIJED I NAZAD */
 
 function nextQuestion() {
   const q = questions[current];
@@ -653,8 +1159,10 @@ function nextQuestion() {
   if (current < questions.length - 1) {
     current++;
     renderQuestion();
+
+    showSection('quiz', questionScenes[current]);
   } else {
-    showSection('invitation');
+    showSection('invitation', 'scene-invite');
   }
 }
 
@@ -662,10 +1170,13 @@ function previousQuestion() {
   if (current > 0) {
     current--;
     renderQuestion();
+
+    showSection('quiz', questionScenes[current]);
   }
 }
 
-/* Dugme NE bjezi od kursora i dodira */
+/* DUGME NE BJEZI OD KURSORA I DODIRA */
+
 const noButton = document.getElementById('noButton');
 const inviteActions = document.getElementById('inviteActions');
 
@@ -696,9 +1207,13 @@ noButton.addEventListener('click', function(event) {
   moveNoButton();
 });
 
+/* PRIHVATANJE DRUGOG DATE */
+
 function acceptDate() {
-  showSection('schedule');
+  showSection('schedule', 'scene-schedule');
 }
+
+/* SLANJE ODGOVORA U SUPABASE */
 
 async function submitAnswers() {
   const date = document.getElementById('dateAnswer').value.trim();
@@ -746,15 +1261,21 @@ async function submitAnswers() {
 
     if (!response.ok) {
       const details = await response.text();
-      throw new Error(details);
+      console.error('Supabase error:', response.status, details);
+      throw new Error(
+        'Greška ' + response.status + ': ' + details
+      );
     }
 
-    showSection('finished');
+    showSection('finished', 'scene-finished');
 
   } catch (err) {
-    console.error(err);
+    console.error('Submission error:', err);
+
     error.textContent =
-      'Evaluacija nije mogla biti poslata. Provjerite internet konekciju i pokušajte ponovo.';
+      'Evaluacija nije mogla biti poslata. ' +
+      'Detalji greške: ' + (err.message || 'Nepoznata greška');
+
     button.disabled = false;
     button.textContent = 'POKUŠAJ PONOVO →';
   }
