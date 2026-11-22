@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f1e9">
+<title>Post-Date Evaluation</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --bg: #f5f1e9;
+  --paper: #fffdf8;
+  --ink: #24221f;
+  --muted: #827c73;
+  --red: #873d42;
+  --line: #e7e0d5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 680px;
+}
+
+.topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: clamp(25px, 6vw, 58px);
+  box-shadow: 0 16px 55px rgba(50, 40, 25, .06);
+  overflow: hidden;
+}
+
+.small-label {
+  color: var(--red);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(38px, 8vw, 64px);
+  line-height: 1.04;
+  margin: 0 0 20px;
+}
+
+h2 {
+  font-size: clamp(26px, 5vw, 36px);
+  line-height: 1.2;
+  margin: 0 0 15px;
+}
+
+.description {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.notice {
+  border-left: 2px solid var(--red);
+  padding: 12px 16px;
+  margin: 27px 0;
+  background: #f8f4ed;
+  color: #686157;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primary {
+  width: 100%;
+  padding: 17px 20px;
+  border: 0;
+  background: var(--ink);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+
+.primary:hover { background: var(--red); }
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.progress-track {
+  height: 3px;
+  background: var(--line);
+  margin-bottom: 38px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--red);
+  transition: width .3s;
+}
+
+.question-number {
+  color: var(--red);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+  margin: 28px 0;
+}
+
+.option {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 16px;
+  text-align: left;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: .2s;
+}
+
+.option:hover {
+  border-color: var(--red);
+  background: #faf6f0;
+}
+
+.option.selected {
+  border-color: var(--red);
+  background: #f5eae7;
+  color: var(--red);
+}
+
+textarea, .text-input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  margin: 12px 0 22px;
+  color: var(--ink);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+textarea:focus, .text-input:focus {
+  border-color: var(--red);
+}
+
+.field-label {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 23px;
+}
+
+.navigation {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.back {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.next { flex: 2; }
+
+.hidden { display: none !important; }
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  margin-top: 22px;
+  text-transform: uppercase;
+}
+
+.center { text-align: center; }
+
+.invite-actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 125px;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.invite-button {
+  width: 125px;
+  min-height: 52px;
+  border: 0;
+  padding: 15px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.yes-button {
+  background: var(--red);
+  color: white;
+}
+
+.no-button {
+  background: #e9e4dc;
+  color: #5d574f;
+  position: relative;
+  z-index: 2;
+  transition: left .12s ease, top .12s ease;
+}
+
+.success {
+  text-align: center;
+  padding: 25px 0;
+}
+
+.success h1 {
+  color: var(--red);
+  font-size: clamp(35px, 8vw, 56px);
+}
+
+.success-mark {
+  font-size: 35px;
+  color: var(--red);
+  margin-bottom: 22px;
+}
+
+.error {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+@media(max-width: 480px) {
+  body { padding: 12px; }
+  .card { padding: 27px 21px; }
+  .topline { font-size: 8px; }
+  .navigation { gap: 8px; }
+  .invite-actions { gap: 10px; }
+  .invite-button { width: 112px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="topline">
+    <span>Independent Evaluation Office</span>
+    <span>Document No. 001</span>
+  </div>
+
+  <main class="card">
+
+    <!-- UVOD -->
+    <section id="intro">
+      <div class="small-label">Official Assessment Form / 2026</div>
+      <h1>Post-Date<br>Evaluation.</h1>
+      <p class="description">
+        Nezavisna procjena nedavno realizovanog romantičnog susreta.
+        Cilj ovog dokumenta je prikupljanje objektivnih informacija
+        o kvalitetu događaja, ponašanju učesnika i mogućnosti
+        ponavljanja eksperimenta.
+      </p>
+
+      <div class="notice">
+        <strong>NAPOMENA:</strong> Vaši odgovori biće tretirani kao
+        povjerljivi podaci. Molimo Vas da odgovarate iskreno.
+        Svaki pokušaj davanja društveno poželjnih odgovora može
+        negativno uticati na validnost istraživanja.
+      </div>
+
+      <button class="primary" onclick="startQuiz()">
+        ZAPOČNI EVALUACIJU →
+      </button>
+    </section>
+
+    <!-- PITANJA -->
+    <section id="quiz" class="hidden">
+      <div class="progress-info">
+        <span id="progressText">Pitanje 1 od 8</span>
+        <span id="progressPercent">12%</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="question-number" id="questionNumber"></div>
+      <h2 id="questionTitle"></h2>
+      <p class="description" id="questionDescription"></p>
+
+      <div id="answerArea"></div>
+
+      <div class="navigation">
+        <button class="back" id="backButton" onclick="previousQuestion()">
+          ← NAZAD
+        </button>
+        <button class="primary next" id="nextButton" onclick="nextQuestion()">
+          NASTAVI →
+        </button>
+      </div>
+
+      <div id="errorMessage" class="error"></div>
+    </section>
+
+    <!-- POZIV NA SLJEDECI DATE -->
+    <section id="invitation" class="hidden center">
+      <div class="small-label">Dodatna administrativna procedura</div>
+      <div class="success-mark">✦</div>
+      <h2>Predlog za nastavak saradnje.</h2>
+
+      <p class="description">
+        Na osnovu prethodno sprovedene evaluacije, kandidat izražava
+        interesovanje za organizaciju još jednog susreta.
+        Molimo Vas da se izjasnite o ponuđenom predlogu.
+      </p>
+
+      <div class="notice">
+        <strong>PREDMET:</strong> Zahtjev za odobrenje drugog susreta.<br>
+        <strong>STATUS:</strong> Čeka se odgovor nadležne osobe.
+      </div>
+
+      <h2 style="font-size:25px;">Da li ste zainteresovani za sljedeći date?</h2>
+
+      <div class="invite-actions" id="inviteActions">
+        <button class="invite-button yes-button" onclick="acceptDate()">
+          DA
+        </button>
+        <button class="invite-button no-button" id="noButton">
+          NE
+        </button>
+      </div>
+
+      <p class="description" style="font-size:11px;">
+        Molimo Vas da donesete odgovornu odluku.
+      </p>
+    </section>
+
+    <!-- ZAKAZIVANJE -->
+    <section id="schedule" class="hidden">
+      <div class="small-label">Procedura zakazivanja / 002</div>
+      <h2>Odlično. Prelazimo na organizaciju sljedećeg susreta.</h2>
+
+      <p class="description">
+        Kako bismo izbjegli nepotrebnu administrativnu prepisku,
+        molimo Vas da navedete prvi termin koji Vam odgovara.
+      </p>
+
+      <div class="notice">
+        <strong>UPUTSTVO:</strong> Navedite prvi slobodan dan
+        i vrijeme kada biste mogli da izdvojite vrijeme za
+        naredni susret.
+      </div>
+
+      <label class="field-label" for="dateAnswer">Prvi slobodan dan</label>
+      <input
+        class="text-input"
+        id="dateAnswer"
+        type="text"
+        placeholder="Npr. subota, 28. novembar"
+        autocomplete="off"
+      >
+
+      <label class="field-label" for="timeAnswer">Vrijeme koje Vam odgovara</label>
+      <input
+        class="text-input"
+        id="timeAnswer"
+        type="text"
+        placeholder="Npr. 18:30 ili poslije 19h"
+        autocomplete="off"
+      >
+
+      <button class="primary" id="submitButton" onclick="submitAnswers()">
+        POTVRDI TERMIN →
+      </button>
+
+      <div id="scheduleError" class="error"></div>
+    </section>
+
+    <!-- ZAVRSETAK -->
+    <section id="finished" class="hidden success">
+      <div class="success-mark">✦</div>
+      <div class="small-label">Izvještaj uspješno evidentiran</div>
+      <h1>Sto skodis kad ti pije</h1>
+
+      <p class="description">
+        Vaša evaluacija je uspješno dostavljena nadležnom organu.
+        Zahvaljujemo na saradnji i izdvojenom vremenu.
+      </p>
+
+      <div class="notice">
+        STATUS PREDMETA: ZAKLJUČEN<br>
+        MOGUĆNOST PONAVLJANJA: ODOBRENA
+      </div>
+    </section>
+
+  </main>
+
+  <div class="footer">
+    Confidential • Department of Romantic Affairs
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ksrgmsbxkvrcfmkrwmwg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_7LlfNi1JMoRXjvcTuOlhNQ__9MKu_3l';
+
+const questions = [
+  {
+    title: 'Kako biste ocijenili cjelokupan događaj?',
+    description: 'Molimo Vas da dodijelite ocjenu na osnovu ličnog utiska.',
+    type: 'choice',
+    options: [
+      '10/10 – Događaj za pamćenje.',
+      '8–9/10 – Veoma uspješna realizacija.',
+      '6–7/10 – Zadovoljavajuće, uz prostor za napredak.',
+      '4–5/10 – Potrebna dodatna analiza.',
+      '1–3/10 – Nadležni organi moraju reagovati.'
+    ]
+  },
+  {
+    title: 'Da li je kandidat ispunio Vaša očekivanja?',
+    description: 'Procjena usklađenosti najavljenih i stvarnih kvaliteta.',
+    type: 'choice',
+    options: [
+      'Da, čak je premašio očekivanja.',
+      'Uglavnom da.',
+      'Djelimično.',
+      'Očekivanja su bila nerealno visoka.',
+      'Odbijam da komentarišem bez prisustva advokata.'
+    ]
+  },
+  {
+    title: 'Kako biste ocijenili kvalitet razgovora?',
+    description: 'Posebna pažnja posvećena je spontanosti i kontinuitetu komunikacije.',
+    type: 'choice',
+    options: [
+      'Razgovor je tekao potpuno prirodno.',
+      'Bilo je nekoliko manjih prekida.',
+      'Tišina je povremeno preuzimala kontrolu.',
+      'Kandidat je uložio značajan napor.',
+      'Potrebna je dodatna obuka.'
+    ]
+  },
+  {
+    title: 'Kako biste ocijenili kandidatov smisao za humor?',
+    description: 'Ovo pitanje ima poseban značaj za konačnu procjenu.',
+    type: 'choice',
+    options: [
+      'Prirodno duhovit.',
+      'Duhovit na neočekivane načine.',
+      'Ponekad se nasmijem iz pristojnosti.',
+      'Misli da je duhovit, što je takođe zanimljivo.',
+      'Komisija još nije donijela konačan zaključak.'
+    ]
+  },
+  {
+    title: 'Koji je bio najbolji dio susreta?',
+    description: 'Navedite konkretan detalj koji je ostavio najpozitivniji utisak.',
+    type: 'text',
+    placeholder: 'Vaš odgovor...'
+  },
+  {
+    title: 'Da li je tokom susreta bilo neprijatnih trenutaka?',
+    description: 'Iskrenost je od ključnog značaja za dalji razvoj projekta.',
+    type: 'choice',
+    options: [
+      'Ne, sve je proteklo bez problema.',
+      'Bilo je ponekih simpatičnih neprijatnosti.',
+      'Da, ali ništa što se ne može popraviti.',
+      'Određeni događaji zahtijevaju povjerljiv razgovor.'
+    ]
+  },
+  {
+    title: 'Da li biste ponovili ovaj eksperiment?',
+    description: 'Ovo pitanje predstavlja najvažniji dio evaluacije.',
+    type: 'choice',
+    options: [
+      'Da, bez ikakvog razmišljanja.',
+      'Da, uz određena poboljšanja.',
+      'Možda. Potrebno je dodatno razmatranje.',
+      'Zahtjev je trenutno na čekanju.',
+      'Ne, ali zahvaljujem na učešću.'
+    ]
+  },
+  {
+    title: 'Imate li dodatnih primjedbi, sugestija ili zahtjeva?',
+    description: 'Ostavite završnu napomenu za nadležnog kandidata.',
+    type: 'text',
+    placeholder: 'Slobodno napišite sve što smatrate relevantnim...'
+  }
+];
+
+let current = 0;
+const answers = {};
+
+function showSection(id) {
+  ['intro', 'quiz', 'invitation', 'schedule', 'finished'].forEach(section => {
+    document.getElementById(section).classList.add('hidden');
+  });
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  showSection('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+
+  document.getElementById('questionNumber').textContent =
+    'PITANJE ' + String(current + 1).padStart(2, '0');
+
+  document.getElementById('questionTitle').textContent = q.title;
+  document.getElementById('questionDescription').textContent = q.description;
+
+  const percent = Math.round(((current + 1) / questions.length) * 100);
+
+  document.getElementById('progressText').textContent =
+    `Pitanje ${current + 1} od ${questions.length}`;
+
+  document.getElementById('progressPercent').textContent = percent + '%';
+  document.getElementById('progressFill').style.width = percent + '%';
+
+  document.getElementById('backButton').style.visibility =
+    current === 0 ? 'hidden' : 'visible';
+
+  document.getElementById('nextButton').textContent =
+    current === questions.length - 1 ? 'ZAVRŠI EVALUACIJU →' : 'NASTAVI →';
+
+  document.getElementById('errorMessage').textContent = '';
+
+  const area = document.getElementById('answerArea');
+  area.innerHTML = '';
+
+  if (q.type === 'choice') {
+    const options = document.createElement('div');
+    options.className = 'options';
+
+    q.options.forEach(option => {
+      const button = document.createElement('button');
+      button.className = 'option';
+      button.textContent = option;
+
+      if (answers[current] === option) {
+        button.classList.add('selected');
+      }
+
+      button.onclick = () => {
+        answers[current] = option;
+        renderQuestion();
+      };
+
+      options.appendChild(button);
+    });
+
+    area.appendChild(options);
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.placeholder = q.placeholder;
+    textarea.value = answers[current] || '';
+    textarea.oninput = () => {
+      answers[current] = textarea.value;
+    };
+    area.appendChild(textarea);
+  }
+}
+
+function nextQuestion() {
+  const q = questions[current];
+  const answer = answers[current];
+
+  if (q.type === 'choice' && !answer) {
+    document.getElementById('errorMessage').textContent =
+      'Molimo Vas da izaberete jedan odgovor prije nastavka.';
+    return;
+  }
+
+  if (q.type === 'text' && !answer?.trim()) {
+    document.getElementById('errorMessage').textContent =
+      'Molimo Vas da unesete odgovor prije nastavka.';
+    return;
+  }
+
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showSection('invitation');
+  }
+}
+
+function previousQuestion() {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+}
+
+/* Dugme NE bjezi od kursora i dodira */
+const noButton = document.getElementById('noButton');
+const inviteActions = document.getElementById('inviteActions');
+
+function moveNoButton() {
+  const area = inviteActions;
+  const button = noButton;
+
+  const maxX = Math.max(0, area.clientWidth - button.offsetWidth);
+  const maxY = Math.max(0, area.clientHeight - button.offsetHeight);
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  button.style.position = 'absolute';
+  button.style.left = x + 'px';
+  button.style.top = y + 'px';
+}
+
+noButton.addEventListener('pointerenter', moveNoButton);
+
+noButton.addEventListener('touchstart', function(event) {
+  event.preventDefault();
+  moveNoButton();
+}, { passive: false });
+
+noButton.addEventListener('click', function(event) {
+  event.preventDefault();
+  moveNoButton();
+});
+
+function acceptDate() {
+  showSection('schedule');
+}
+
+async function submitAnswers() {
+  const date = document.getElementById('dateAnswer').value.trim();
+  const time = document.getElementById('timeAnswer').value.trim();
+  const error = document.getElementById('scheduleError');
+  const button = document.getElementById('submitButton');
+
+  error.textContent = '';
+
+  if (!date || !time) {
+    error.textContent =
+      'Molimo Vas da unesete i dan i vrijeme za sljedeći susret.';
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'SLANJE U TOKU...';
+
+  const formattedAnswers = {};
+
+  questions.forEach((q, index) => {
+    formattedAnswers[q.title] = answers[index];
+  });
+
+  formattedAnswers['Da li ste zainteresovani za sljedeći date?'] = 'DA';
+  formattedAnswers['Prvi slobodan dan'] = date;
+  formattedAnswers['Vrijeme koje odgovara'] = time;
+
+  try {
+    const response = await fetch(
+      SUPABASE_URL + '/rest/v1/date_feedback',
+      {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          answers: formattedAnswers
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const details = await response.text();
+      throw new Error(details);
+    }
+
+    showSection('finished');
+
+  } catch (err) {
+    console.error(err);
+    error.textContent =
+      'Evaluacija nije mogla biti poslata. Provjerite internet konekciju i pokušajte ponovo.';
+    button.disabled = false;
+    button.textContent = 'POKUŠAJ PONOVO →';
+  }
+}
+</script>
+</body>
+</html>
